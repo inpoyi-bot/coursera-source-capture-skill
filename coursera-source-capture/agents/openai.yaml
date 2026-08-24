@@ -1,0 +1,4 @@
+interface:
+  display_name: "Coursera Source Capture"
+  short_description: "Capture Coursera raw sources with provenance and validation"
+  default_prompt: "Use $coursera-source-capture to capture the next accessible Coursera module without summaries or credential export."

@@ -1,0 +1,22 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+dist/
+build/
+*.egg-info/
+
+# Course capture outputs are local-only and must never enter this repository.
+/.coursera-source-capture-root.json
+/raw/
+/readable/
+/coursera-learning/
+/capture-output/
+/capture_policy.md
+/capture_manifest.md
+/manual_capture_queue.json
+/manual_capture_queue.md
+/coursera-source-capture/.coursera-source-capture-root.json
+/coursera-source-capture/raw/
+/coursera-source-capture/readable/

@@ -1,0 +1,30 @@
+name: Validate skill
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Validate skill structure
+        run: python tools/validate_skill.py coursera-source-capture
+      - name: Run offline regression tests
+        run: python -m unittest discover -s tests -v
+      - name: Build installable archive
+        run: python tools/package_skill.py --version 0.0.0-ci
