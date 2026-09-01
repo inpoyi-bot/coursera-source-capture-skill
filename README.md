@@ -18,7 +18,7 @@ by Coursera or OpenAI.
 - converts VTT into timestamped raw Markdown and a more readable mechanical
   derivative while verifying text preservation;
 - registers unlocked widgets, glossaries, plugins, and labs in a durable gap
-  queue;
+  queue that can safely track multiple courses in one project root;
 - applies bounded Chrome fallback rules and an auditable manual evidence bundle
   when Coursera widget pages cannot be read reliably;
 - validates hashes, provenance, queue state, and source completeness.
@@ -94,6 +94,14 @@ Captured outputs remain local. The repository `.gitignore` excludes root
 markers, `raw/`, `readable/`, queues, manifests, and common capture-output
 directories as defense in depth. Releases package only the installable skill
 folder; they never package a capture project.
+
+An older schema-v1 queue is single-course. Before adding another course to the
+same root, migrate it without refreshing historical lock state:
+
+```bash
+python3 coursera-source-capture/scripts/sync_manual_capture_queue.py \
+  --migrate-only /absolute/path/to/QUEUE_JSON /absolute/path/to/QUEUE_MD
+```
 
 ## Output contract
 

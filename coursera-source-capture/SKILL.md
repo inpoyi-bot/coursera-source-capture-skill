@@ -13,6 +13,9 @@ raw evidence plus mechanical derivatives; do not perform knowledge processing.
 If an existing capture project is supplied, read its README, capture policy,
 manual queue, target module manifest, and actual raw files before acting. Actual
 files and current API/page evidence outrank old handoffs or previous claims.
+Before adding a second course to a shared project root, migrate any schema-v1
+single-course queue with `sync_manual_capture_queue.py --migrate-only`; schema
+v2 stores course identity on every item and prevents cross-course collisions.
 
 For a new project, create the directory and provenance contract in
 [references/schemas.md](references/schemas.md). Never write into a convenient

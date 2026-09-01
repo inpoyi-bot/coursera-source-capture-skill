@@ -20,6 +20,13 @@ from inferred state.
    marker's parent as `PROJECT_ROOT` for the whole run. Every bundled writer
    refuses output outside that active marker tree.
 4. Read current policy, queue, prior manifests, and actual raw/readable files.
+   If a shared root still has a schema-v1 single-course queue, migrate it before
+   inventorying a second course:
+
+   ```text
+   python3 -B scripts/sync_manual_capture_queue.py --migrate-only QUEUE_JSON QUEUE_MD
+   ```
+
 5. Record before-state queue counts and hashes or modification times for modules
    that must remain untouched.
 6. Work in a new staging directory under `PROJECT_ROOT`. Do not create the target module over an
@@ -57,8 +64,10 @@ python3 -B scripts/sync_manual_capture_queue.py MODULE_ITEMS_JSON QUEUE_JSON QUE
 
 The script adds explicitly unlocked items as `manual_capture_pending`, unknown
 items as `needs_inventory_refresh`, keeps completed audit entries, and
-recomputes all counts. Locked items stay in the module manifest and are not
-added as eligible capture work.
+recomputes global and per-course counts. Schema-v2 matching includes course
+slug, module, and item identity so separate courses cannot overwrite one
+another. Locked items stay in the module manifest and are not added as eligible
+capture work.
 
 ## 4. Lectures
 

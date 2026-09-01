@@ -48,6 +48,24 @@ they determine URL routing and capture policy.
 Each lecture record additionally retains lecture order and file stem. Lecture
 order is independent of module display order.
 
+## Multi-course queue
+
+`manual_capture_queue.json` uses schema version 2. It is shared by every course
+under one active project root. The top level contains global `counts`,
+`course_counts` keyed by course slug, and `items`. It does not contain a single
+top-level `course_slug`; every item carries its own course identity.
+
+Before adding another course to a root with a schema-v1 queue, run:
+
+```text
+python3 -B scripts/sync_manual_capture_queue.py --migrate-only QUEUE_JSON QUEUE_MD
+```
+
+Migration preserves existing gap IDs, statuses, evidence, verification fields,
+and `last_checked` values. It adds each legacy top-level course slug to its
+items, removes the single-course field, recomputes global and per-course counts,
+and rerenders the Markdown register.
+
 ## Queue entry
 
 Use a stable ID derived from course slug, module, and item ID. If item ID is
@@ -76,7 +94,9 @@ Statuses:
   condition.
 
 Keep verified entries as audit history. Recompute counts from entries; never
-hand-maintain stale totals.
+hand-maintain stale totals. Match and sort items using course slug as part of
+their identity; module numbers and Coursera item IDs are not globally unique
+across courses.
 
 ## Per-file provenance
 
